@@ -3,15 +3,15 @@ namespace Core.Controllers
     public static class Defines
     {
 #if UNITY_EDITOR
-        public const bool UnityEditor = true;
+        public static bool UnityEditor => true;
 #else
-        public const bool UnityEditor = false;
+        public static bool UnityEditor => false;
 #endif
 
-#if PRODUCTION
-        public const bool Production = true;
+#if DEPLOYMENT
+        public static bool Deployment => true;
 #else
-        public const bool Production = false;
+        public static bool Deployment => false;
 #endif
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace Core.Managers.ScriptableObjects
 {
+    [CreateAssetMenu(fileName = "PathHandler", menuName = "Scriptable Objects/Path Handler", order = 0)]
     public class ScriptableObjectsPathHandler : ScriptableObject
     {
         [SerializeField] private ScriptableObjectPath[] paths;
@@ -24,7 +25,7 @@ namespace Core.Managers.ScriptableObjects
         [ContextMenu("Update paths")]
         private void UpdatePaths()
         {
-            var GUIDs = AssetDatabase.FindAssets($"t:{nameof(ScriptableObject)}");
+            var GUIDs = AssetDatabase.FindAssets($"t:{nameof(ScriptableObject)}", new[] {"Assets/Resources/ScriptableObjects"});
 
             paths = new ScriptableObjectPath[GUIDs.Length];
 

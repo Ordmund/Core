@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Core.Managers.ScriptableObjects
 {
-    [CreateAssetMenu(fileName = "PathHandler", menuName = "Scriptable Objects/Path Handler", order = 0)]
     public class ScriptableObjectsPathHandler : ScriptableObject
     {
+        [SerializeField] private string pathToScriptableObjects;
         [SerializeField] private ScriptableObjectPath[] paths;
 
         public string GetPath<T>() where T : ScriptableObject
@@ -25,7 +25,13 @@ namespace Core.Managers.ScriptableObjects
         [ContextMenu("Update paths")]
         private void UpdatePaths()
         {
-            var GUIDs = AssetDatabase.FindAssets($"t:{nameof(ScriptableObject)}", new[] {"Assets/Resources/ScriptableObjects"});
+            if (string.IsNullOrEmpty(pathToScriptableObjects))
+            {
+                "Path to ScriptableObjects folder is empty!".Error(LogColor.Crimson, LogsChannel.Editor);
+                return;
+            }
+
+            var GUIDs = AssetDatabase.FindAssets($"t:{nameof(ScriptableObject)}", new[] {pathToScriptableObjects});
 
             paths = new ScriptableObjectPath[GUIDs.Length];
 
@@ -35,6 +41,8 @@ namespace Core.Managers.ScriptableObjects
                 var asset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
                 paths[assetIndex] = new ScriptableObjectPath {name = asset.name, path = path};
             }
+
+            "ScriptableObjects paths successfully updated!".Debug(LogColor.Green, LogsChannel.Editor);
         }
     }
 }

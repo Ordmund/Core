@@ -13,7 +13,7 @@ namespace Core.Managers
         /// </summary>
         /// <param name="path">Path to asset</param>
         /// <typeparam name="T">Type of asset that inherited from Unity.Object</typeparam>
-        /// <returns></returns>
+        /// <returns>Loaded asset</returns>
         public static T Load<T>(string path) where T : Object
         {
             if (_assets.ContainsKey(path))

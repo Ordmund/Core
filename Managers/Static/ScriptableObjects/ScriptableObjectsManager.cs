@@ -1,31 +1,54 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ColoredLogger;
+using ProjectName.Tools;
 using UnityEngine;
+using static Core.Constants.DependenciesProvider;
 
 namespace Core.Managers.ScriptableObjects
 {
     public static class ScriptableObjectsManager
     {
-        private const string PathHandlerPath = "ScriptableObjects/Handlers/PathHandler.asset"; //TODO set by reflections?
-        
-        private static List<ScriptableObject> _scriptableObjects;
+        private static readonly List<ScriptableObject> _scriptableObjects = new List<ScriptableObject>();
         private static ScriptableObjectsPathHandler _pathHandler;
 
         private static ScriptableObjectsPathHandler PathHandler => _pathHandler != null ? _pathHandler : _pathHandler = ResourcesManager.Load<ScriptableObjectsPathHandler>(PathHandlerPath);
 
-        public static T Load<T>() where T : ScriptableObject
+        public static TScriptableObject Load<TScriptableObject>(string name) where TScriptableObject : ScriptableObject
         {
-            throw new NotImplementedException();
+            var searchResult = _scriptableObjects.FirstOrDefault(loadedScriptableObject => loadedScriptableObject.name == name);
+            if (searchResult != null)
+                return searchResult as TScriptableObject;
+
+            var path = PathHandler.GetPath(name);
+            var scriptableObject = ResourcesManager.Load<TScriptableObject>(path);
+
+            if (scriptableObject != null)
+            {
+                _scriptableObjects.Add(scriptableObject);
+                return scriptableObject;
+            }
+
+            $"ScriptableObject with name [{name}] and type {typeof(TScriptableObject)} not found!".Error(LogColor.Red, LogsChannel.ScriptableObjects);
+            return null;
         }
 
         public static void Unload(ScriptableObject scriptableObject)
         {
+            if (_scriptableObjects.Contains(scriptableObject))
+                _scriptableObjects.Remove(scriptableObject);
+
             ResourcesManager.Unload(scriptableObject);
         }
 
-        public static void Unload<T>()
+        public static void Unload(string name)
         {
-            throw new NotImplementedException();
+            var searchResult = _scriptableObjects.FirstOrDefault(loadedScriptableObject => loadedScriptableObject.name == name);
+            if (searchResult == null)
+                return;
+
+            _scriptableObjects.Remove(searchResult);
+            ResourcesManager.Unload(searchResult);
         }
 
         public static void UnloadAll()

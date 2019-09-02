@@ -1,18 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
-public class AtlasManager : MonoBehaviour
+public static class AtlasManager
 {
-    // Start is called before the first frame update
-    void Start()
+    public static Sprite GetSprite(string spriteName)
     {
-        
+        throw new NotImplementedException();
     }
 
-    // Update is called once per frame
-    void Update()
+    private static void LoadAtlas()
     {
-        
+
     }
 }

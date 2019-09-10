@@ -10,7 +10,12 @@ namespace Core.Managers
         /// <summary>
         /// Initializes system or manager.
         /// </summary>
-        void Initialize();
+        void Initialize(Distributor distributor);
+
+        /// <summary>
+        /// Clears data related to system or manager to continue use class in another game state.
+        /// </summary>
+        void Restart();
 
         /// <summary>
         /// Clears all links in class and disables class for using

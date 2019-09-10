@@ -7,10 +7,16 @@ namespace Core.Managers.Test
         private I2 _mananager;
 
         public int InitializationGeneration => 1;
-        
-        public void Initialize()
+
+
+        public void Initialize(Distributor distributor)
         {
-            1.Log();
+            _mananager = distributor.Get<I2>();
+        }
+
+        public void Restart()
+        {
+            throw new System.NotImplementedException();
         }
 
         public void Dispose()

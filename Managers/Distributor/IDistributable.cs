@@ -15,7 +15,7 @@ namespace Core.Managers
         /// <summary>
         /// Clears data related to system or manager to continue use class in another game state.
         /// </summary>
-        void Restart();
+        void Restart(Distributor distributor);
 
         /// <summary>
         /// Clears all links in class and disables class for using

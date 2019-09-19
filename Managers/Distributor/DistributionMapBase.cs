@@ -7,8 +7,6 @@ namespace Core.Managers
     {
         private readonly Dictionary<Type, Type> _map = new Dictionary<Type, Type>();
 
-        protected abstract void Map();
-
         protected void Add<TInterface, TClass>() 
             where TInterface : class, IDistributable
             where TClass : class, TInterface

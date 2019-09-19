@@ -8,20 +8,11 @@ namespace Core.Managers
     {
         private readonly Dictionary<Type, IDistributable> _instances = new Dictionary<Type, IDistributable>();
 
-        public void Initialize(DistributionMapBase map)
-        {
-            UpdateInstances(map.GetMap());
-
-            var sortedInstances = _instances.Values.OrderBy(instance => instance.InitializationGeneration);
-            foreach (var instance in sortedInstances) 
-                instance.Initialize(this);
-        }
-
-        #region Update
+        #region Instances Configuration
         
-        private void UpdateInstances(Dictionary<Type, Type> newMap)
+        public void UpdateInstances(Dictionary<Type, Type> newMap)
         {
-            var previousInstances = _instances;
+            var previousInstances = new Dictionary<Type, IDistributable>(_instances);
             _instances.Clear();
             
             var instancesToRestart = GetInstancesToReload(previousInstances, newMap);
@@ -32,22 +23,9 @@ namespace Core.Managers
                 distributable.Dispose();
 
             foreach (var distributable in instancesToRestart) 
-                distributable.Restart();
-
-            //TODO ================================================================== WORK ==================================================================
-
-            var fistGeneration = _instances.Values.Min(instance => instance.InitializationGeneration);
-            var lastGeneration = _instances.Values.Max(instance => instance.InitializationGeneration);
-            for (var generation = fistGeneration; generation < lastGeneration; generation++)
-            {
-                
-            }
-
-            //todo sort?
-
-            //TODO ================================================================== SAFE ==================================================================
+                distributable.Restart(this);
             
-            foreach (var distributable in instancesToInitialize) //TODO GENERATIONS
+            foreach (var distributable in instancesToInitialize)
                 distributable.Initialize(this);
         }
         
@@ -88,7 +66,7 @@ namespace Core.Managers
                 }
             }
 
-            return instancesToInitialize;
+            return instancesToInitialize.OrderBy(instance => instance.InitializationGeneration);
         }
 
         private IEnumerable<IDistributable> GetInstancesToDispose(Dictionary<Type, IDistributable> previousInstances)
@@ -103,7 +81,7 @@ namespace Core.Managers
             var type = typeof(T);
             if (!type.IsInterface)
                 throw new NotInterfaceTypeException($"Requested type {typeof(T)} is not an interface.");
-            
+
             if (!_instances.ContainsKey(type))
                 throw new InstanceNotFoundException($"Distributor do not contains an instance of {type.FullName} class!");
             

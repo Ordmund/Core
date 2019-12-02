@@ -9,26 +9,26 @@ namespace Core.Managers
         private readonly Dictionary<Type, IDistributable> _instances = new Dictionary<Type, IDistributable>();
 
         #region Instances Configuration
-        
+
         public void UpdateInstances(Dictionary<Type, Type> newMap)
         {
             var previousInstances = new Dictionary<Type, IDistributable>(_instances);
             _instances.Clear();
-            
+
             var instancesToRestart = GetInstancesToReload(previousInstances, newMap);
             var instancesToInitialize = GetInstancesToInitialize(instancesToRestart, newMap);
             var instancesToDispose = GetInstancesToDispose(previousInstances);
 
-            foreach (var distributable in instancesToDispose) 
+            foreach (var distributable in instancesToDispose)
                 distributable.Dispose();
 
-            foreach (var distributable in instancesToRestart) 
+            foreach (var distributable in instancesToRestart)
                 distributable.Restart(this);
-            
+
             foreach (var distributable in instancesToInitialize)
                 distributable.Initialize(this);
         }
-        
+
         private static List<IDistributable> GetInstancesToReload(Dictionary<Type, IDistributable> previousInstances, Dictionary<Type, Type> newMap)
         {
             var instancesToReload = new List<IDistributable>();
@@ -49,17 +49,17 @@ namespace Core.Managers
                 var classType = instanceType.Value;
 
                 var activeInstance = instancesToReload.FirstOrDefault(distributable => distributable.GetType() == classType);
-                if (activeInstance != null) 
+                if (activeInstance != null)
                     _instances.Add(interfaceType, activeInstance);
                 else
                 {
                     var createdInstance = _instances.Values.FirstOrDefault(instance => instance.GetType() == classType);
-                    if (createdInstance != null) 
+                    if (createdInstance != null)
                         _instances.Add(interfaceType, createdInstance);
                     else
                     {
                         var newInstance = Activator.CreateInstance(classType) as IDistributable;
-                        
+
                         instancesToInitialize.Add(newInstance);
                         _instances.Add(interfaceType, newInstance);
                     }
@@ -75,7 +75,7 @@ namespace Core.Managers
         }
 
         #endregion
-        
+
         public T Get<T>() where T : class, IDistributable
         {
             var type = typeof(T);
@@ -84,10 +84,10 @@ namespace Core.Managers
 
             if (!_instances.ContainsKey(type))
                 throw new InstanceNotFoundException($"Distributor do not contains an instance of {type.FullName} class!");
-            
+
             return (T) _instances[type];
         }
-        
+
         private class NotInterfaceTypeException : Exception
         {
             public NotInterfaceTypeException(string message) : base(message)

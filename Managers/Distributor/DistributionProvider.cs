@@ -2,26 +2,25 @@ using System;
 
 namespace Core.Managers
 {
-    public class DistributorContext
+    public static class DistributionProvider
     {
         private static Distributor _distributor;
-        
-        public void Setup<TMap>() where TMap : DistributionMapBase
+
+        public static void Setup<TMap>() where TMap : DistributionMapBase
         {
-            if(_distributor == null)
+            if (_distributor == null)
                 _distributor = new Distributor();
 
             var distributionMap = Activator.CreateInstance<TMap>();
-            var map = distributionMap.GetMap();
-
-            _distributor.UpdateInstances(map);
+            
+            _distributor.UpdateInstances(distributionMap);
         }
 
-        public Distributor GetDistributor()
+        public static Distributor GetDistributor()
         {
             if (_distributor == null)
-                throw new NotInitializedException("Distributor is not initialized! Call Setup<Map> method first!");
-            
+                throw new NotInitializedException("Distributor is not initialized! Call Setup<TMap> method first!");
+
             return _distributor;
         }
 

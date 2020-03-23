@@ -14,8 +14,11 @@ namespace Core.Managers.ScriptableObjects
 
         private static ScriptableObjectsPathHandler PathHandler => _pathHandler != null ? _pathHandler : _pathHandler = ResourcesManager.Load<ScriptableObjectsPathHandler>(PathHandlerPath);
 
-        public static TScriptableObject Load<TScriptableObject>(string name) where TScriptableObject : ScriptableObject
+        public static TScriptableObject Load<TScriptableObject>(string name = null) where TScriptableObject : ScriptableObject
         {
+            if (name == null)
+                name = typeof(TScriptableObject).Name;
+            
             var searchResult = _scriptableObjects.FirstOrDefault(loadedScriptableObject => loadedScriptableObject.name == name);
             if (searchResult != null)
                 return searchResult as TScriptableObject;

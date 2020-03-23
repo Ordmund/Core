@@ -42,6 +42,7 @@ namespace Core.Managers.ScriptableObjects
                 if (conflictingPath != null)
                     $"ScriptableObjects path handler already contains path for name [{asset.name}]. Conflicting objects are: {conflictingPath.path} and {path}.".Error(LogColor.Red, LogsChannel.Editor);
 
+                path = path.Replace("Assets/Resources/", string.Empty).Replace(".asset", string.Empty);
                 paths[assetIndex] = new ScriptableObjectPath {name = asset.name, path = path};
             }
 

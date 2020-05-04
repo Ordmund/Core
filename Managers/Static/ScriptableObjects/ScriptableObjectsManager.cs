@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using ColoredLogger;
-using ProjectName.Tools;
+using Constants;
 using UnityEngine;
 using static Core.Constants.DependenciesProvider;
 

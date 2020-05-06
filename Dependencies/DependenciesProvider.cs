@@ -2,6 +2,6 @@
 {
     public static class DependenciesProvider
     {
-        public const string PathHandlerPath = "ScriptableObjects/Handlers/PathHandler";
+        public static string PathHandlerPath;
     }
 }

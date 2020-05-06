@@ -1,8 +1,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using ColoredLogger;
-using Constants;
 using UnityEditor;
 using UnityEngine;
 
@@ -50,32 +48,32 @@ namespace Core.Managers.ScriptableObjects
             var asset = CreateInstance(_scriptableObjects[_selectedIndex]);
             AssetDatabase.CreateAsset(asset, fullPath);
 
-            $"{_scriptableObjects[_selectedIndex]} successfully created!".Debug(LogColor.Green, LogsChannel.Editor);
+            Debug.Log($"<color=green>{_scriptableObjects[_selectedIndex]} successfully created!</color>");
         }
 
         private bool IsHaveErrors(string assetPath, string fullPath)
         {
             if (string.IsNullOrEmpty(_scriptableObjectName))
             {
-                "Name of a ScriptableObject is empty!".Error(LogColor.Teal, LogsChannel.Editor);
+                Debug.LogError("Name of a ScriptableObject is empty!");
                 return true;
             }
 
             if (string.IsNullOrEmpty(assetPath))
             {
-                "Folder not selected!".Error(LogColor.DarkOrange, LogsChannel.Editor);
+                Debug.LogError("Folder not selected!");
                 return true;
             }
             
             if(File.Exists(fullPath))
             {
-                $"ScriptableObject with name {_scriptableObjectName} already exist by path {assetPath}!".Debug(LogColor.Orange, LogsChannel.Editor);
+                Debug.LogError($"ScriptableObject with name {_scriptableObjectName} already exist by path {assetPath}!");
                 return true;
             }
 
             if (_scriptableObjects.Length != 0) return false;
             
-            "Not found any available ScriptableObject to create!".Error(LogColor.Teal, LogsChannel.Editor);
+            Debug.LogError("Not found any available ScriptableObject to create!");
             return true;
         }
     }

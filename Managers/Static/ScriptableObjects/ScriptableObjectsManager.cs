@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using ColoredLogger;
-using Constants;
 using UnityEngine;
 using static Core.Constants.DependenciesProvider;
 
@@ -32,7 +30,7 @@ namespace Core.Managers.ScriptableObjects
                 return scriptableObject;
             }
 
-            $"ScriptableObject with name [{name}] and type {typeof(TScriptableObject)} not found!".Error(LogColor.Red, LogsChannel.ScriptableObjects);
+            Debug.LogError($"ScriptableObject with name [{name}] and type {typeof(TScriptableObject)} not found!");
             return null;
         }
 

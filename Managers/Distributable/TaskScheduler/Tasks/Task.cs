@@ -11,7 +11,7 @@ namespace Core.Managers
         public Action onAbort;
         public Task nextTask;
 
-        protected IDistributable Get<T>() where T : class, IDistributable
+        protected T Get<T>() where T : class, IDistributable
         {
             if (_distributor == null)
                 _distributor = DistributionProvider.GetDistributor();

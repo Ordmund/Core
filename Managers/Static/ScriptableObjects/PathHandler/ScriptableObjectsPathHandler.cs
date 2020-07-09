@@ -19,6 +19,11 @@ namespace Core.Managers.ScriptableObjects
             return string.Empty;
         }
 
+        public bool Contains(string objectName)
+        {
+            return paths.Any(model => model.name == objectName);
+        }
+
         [ContextMenu("Update paths")]
         private void UpdatePaths()
         {

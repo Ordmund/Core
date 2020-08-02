@@ -7,7 +7,7 @@ namespace Core.Managers.Files
 {
     public static class FilesManager
     {
-        public static void Save<T>(this T data) where T : new()
+        public static void Save<T>(this T data)
         {
             var type = typeof(T);
             if(!type.IsSerializable)
@@ -20,7 +20,7 @@ namespace Core.Managers.Files
             File.WriteAllBytes(GetPath<T>(), bytes);
         }
 
-        public static T Load<T>() where T : new()
+        public static T Load<T>()
         {
             if (File.Exists(GetPath<T>()))
             {
@@ -31,10 +31,10 @@ namespace Core.Managers.Files
                 return JsonUtility.FromJson<T>(json);
             }
 
-            return new T();
+            return default;
         }
 
-        private static string GetPath<T>() where T : new()
+        private static string GetPath<T>()
         {
             return Path.Combine(Application.persistentDataPath, typeof(T).Name);
         }

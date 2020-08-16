@@ -25,7 +25,7 @@ namespace Core.Managers.ScriptableObjects
         }
 
         [ContextMenu("Update paths")]
-        private void UpdatePaths()
+        public void UpdatePaths()
         {
             if (pathsToScriptableObjects == null)
             {

@@ -9,22 +9,25 @@ namespace Core.Managers.Files
     {
         public static void Save<T>(this T data)
         {
-            var type = typeof(T);
-            if(!type.IsSerializable)
+            var type = data.GetType();
+            if (!type.IsSerializable)
                 throw new Exception($"Type {type.FullName} is not serializable!");
 
             var json = JsonUtility.ToJson(data);
             var encryptedJson = json.Encrypt();
             var bytes = Encoding.ASCII.GetBytes(encryptedJson);
 
-            File.WriteAllBytes(GetPath<T>(), bytes);
+            File.WriteAllBytes(GetPath(type.Name), bytes);
         }
 
         public static T Load<T>()
         {
-            if (File.Exists(GetPath<T>()))
+            var typeName = typeof(T).Name;
+            var path = GetPath(typeName);
+            
+            if (File.Exists(path))
             {
-                var bytes = File.ReadAllBytes(GetPath<T>());
+                var bytes = File.ReadAllBytes(path);
                 var encryptedJson = Encoding.ASCII.GetString(bytes);
                 var json = encryptedJson.Decrypt();
 
@@ -34,9 +37,9 @@ namespace Core.Managers.Files
             return default;
         }
 
-        private static string GetPath<T>()
+        private static string GetPath(string typeName)
         {
-            return Path.Combine(Application.persistentDataPath, typeof(T).Name);
+            return Path.Combine(Application.persistentDataPath, typeName);
         }
     }
 }

@@ -8,8 +8,7 @@ namespace Core.Managers
 
         public static void Setup<TMap>() where TMap : DistributionMapBase
         {
-            if (_distributor == null)
-                _distributor = new Distributor();
+            _distributor ??= new Distributor();
 
             var distributionMap = Activator.CreateInstance<TMap>();
             

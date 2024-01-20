@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Core.Managers
+namespace Core.Managers.Injectable
 {
     public class UnityCallbacks : MonoBehaviour, IUnityCallbacks
     {
@@ -9,9 +9,12 @@ namespace Core.Managers
 
         public event Action OnUpdate;
 
-        public int InitializationGeneration => 0;
+        private void Awake()
+        {
+            InstantiateAndSubscribeOnUpdate();
+        }
 
-        public void Initialize(Distributor distributor)
+        private void InstantiateAndSubscribeOnUpdate()
         {
             var behaviourGameObject = new GameObject(nameof(UnityCallbacks));
             _behaviour = behaviourGameObject.AddComponent<UnityCallbacksBehaviour>();
@@ -22,11 +25,6 @@ namespace Core.Managers
         private void Update()
         {
             OnUpdate?.Invoke();
-        }
-
-        public void Restart(Distributor distributor)
-        {
-            //Ignored
         }
 
         public void Dispose()

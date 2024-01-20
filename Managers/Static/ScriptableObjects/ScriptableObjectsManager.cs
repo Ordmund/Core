@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static Core.Constants.DependenciesProvider;
+using static Core.Dependencies.DependenciesProvider;
 
 namespace Core.Managers.ScriptableObjects
 {

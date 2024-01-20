@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Core.Managers
+namespace Core.Managers.Injectable
 {
     public class UnityCallbacksBehaviour : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Core.Managers
+namespace Core.Managers.Injectable
 {
     public class WaitForSeconds : YieldInstruction
     {

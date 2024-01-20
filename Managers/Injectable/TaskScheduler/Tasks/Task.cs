@@ -1,23 +1,13 @@
 using System;
 using System.Collections;
 
-namespace Core.Managers
+namespace Core.Managers.Injectable
 {
     public abstract class Task
     {
-        private Distributor _distributor;
-        
         public Action onComplete;
         public Action onAbort;
         public Task nextTask;
-
-        protected T Get<T>() where T : class, IDistributable
-        {
-            if (_distributor == null)
-                _distributor = DistributionProvider.GetDistributor();
-
-            return _distributor.Get<T>();
-        }
 
         public abstract IEnumerator Execute();
 

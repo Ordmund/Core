@@ -1,4 +1,4 @@
-namespace Core.Managers
+namespace Core.Managers.Injectable
 {
     public abstract class YieldInstruction
     {

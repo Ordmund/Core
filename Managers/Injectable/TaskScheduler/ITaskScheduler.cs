@@ -1,6 +1,6 @@
-namespace Core.Managers
+namespace Core.Managers.Injectable
 {
-    public interface ITaskScheduler : IDistributable
+    public interface ITaskScheduler
     {
         void Run(Task task, float delay = default);
         void Abort(Task task);

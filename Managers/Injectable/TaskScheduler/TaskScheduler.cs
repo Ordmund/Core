@@ -1,20 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Core.Managers
+namespace Core.Managers.Injectable
 {
     public class TaskScheduler : ITaskScheduler
     {
-        private IUnityCallbacks _unityCallbacks;
+        private readonly IUnityCallbacks _unityCallbacks;
         
-        private readonly List<RunningTask> _tasks = new List<RunningTask>();
-
-        public int InitializationGeneration => 0;
+        private readonly List<RunningTask> _tasks = new();
         
-        public void Initialize(Distributor distributor)
+        public TaskScheduler(IUnityCallbacks unityCallbacks)
         {
-            _unityCallbacks = distributor.Get<IUnityCallbacks>();
-
+            _unityCallbacks = unityCallbacks;
+        
             _unityCallbacks.OnUpdate += MoveNext;
         }
 
@@ -46,7 +44,7 @@ namespace Core.Managers
             for (var index = 0; index < _tasks.Count; index++)
             {
                 var task = _tasks[index];
-                if (task.current != null && !task.current.IsComplete) 
+                if (task.current is { IsComplete: false }) 
                     continue;
                 
                 var result = task.enumerator.MoveNext();
@@ -63,11 +61,6 @@ namespace Core.Managers
                 _tasks.RemoveAt(index);
                 index--;
             }
-        }
-        
-        public void Restart(Distributor distributor)
-        {
-            //Ignored
         }
 
         public void Dispose()

@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 
-namespace Core.Managers
+namespace Core.Managers.Injectable
 {
     public class ActionTask : Task
     {

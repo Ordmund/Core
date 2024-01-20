@@ -1,4 +1,4 @@
-﻿namespace Core.Constants
+﻿namespace Core.Dependencies
 {
     public static class DependenciesProvider
     {

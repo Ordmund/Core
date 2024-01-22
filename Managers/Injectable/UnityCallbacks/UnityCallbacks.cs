@@ -1,15 +1,16 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 namespace Core.Managers.Injectable
 {
-    public class UnityCallbacks : MonoBehaviour, IUnityCallbacks
+    public class UnityCallbacks : MonoBehaviour, IUnityCallbacks, IInitializable, IDisposable
     {
         private UnityCallbacksBehaviour _behaviour;
 
         public event Action OnUpdate;
-
-        private void Awake()
+        
+        public void Initialize()
         {
             InstantiateAndSubscribeOnUpdate();
         }

@@ -9,6 +9,7 @@ namespace Core.Installers
         {
             Container.Bind<IUnityCallbacks>().To<UnityCallbacks>().AsSingle();
             Container.Bind<ITaskScheduler>().To<TaskScheduler>().AsSingle();
+            Container.Bind<IControllerRunner>().To<ControllerRunner>().AsSingle();
         }
     }
 }

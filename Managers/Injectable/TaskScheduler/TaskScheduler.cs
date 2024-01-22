@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Core.Managers.Injectable
 {
-    public class TaskScheduler : ITaskScheduler
+    public class TaskScheduler : ITaskScheduler, IDisposable
     {
         private readonly IUnityCallbacks _unityCallbacks;
         

@@ -7,9 +7,21 @@ namespace Core.Installers
     {
         public override void InstallBindings()
         {
-            Container.Bind<IUnityCallbacks>().To<UnityCallbacks>().AsSingle();
+            BindUnityCallbacks();
+            BindTaskScheduler();
+        }
+
+        private void BindTaskScheduler()
+        {
             Container.Bind<ITaskScheduler>().To<TaskScheduler>().AsSingle();
-            Container.Bind<IControllerRunner>().To<ControllerRunner>().AsSingle();
+        }
+
+        private void BindUnityCallbacks()
+        {
+            Container.Bind<IUnityCallbacksBehaviour>()
+                .To<UnityCallbacksBehaviour>()
+                .FromNewComponentOnNewGameObject()
+                .AsSingle();
         }
     }
 }

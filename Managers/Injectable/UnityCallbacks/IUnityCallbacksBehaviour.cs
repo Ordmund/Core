@@ -2,7 +2,7 @@ using System;
 
 namespace Core.Managers.Injectable
 {
-    public interface IUnityCallbacks
+    public interface IUnityCallbacksBehaviour
     {
         event Action OnUpdate;
     }

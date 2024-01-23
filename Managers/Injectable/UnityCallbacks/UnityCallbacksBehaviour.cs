@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Core.Managers.Injectable
 {
-    public class UnityCallbacksBehaviour : MonoBehaviour
+    public class UnityCallbacksBehaviour : MonoBehaviour, IUnityCallbacksBehaviour
     {
         public event Action OnUpdate = delegate { };
 

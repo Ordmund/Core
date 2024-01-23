@@ -6,11 +6,11 @@ namespace Core.Managers.Injectable
 {
     public class TaskScheduler : ITaskScheduler, IDisposable
     {
-        private readonly IUnityCallbacks _unityCallbacks;
+        private readonly IUnityCallbacksBehaviour _unityCallbacks;
         
         private readonly List<RunningTask> _tasks = new();
         
-        public TaskScheduler(IUnityCallbacks unityCallbacks)
+        public TaskScheduler(IUnityCallbacksBehaviour unityCallbacks)
         {
             _unityCallbacks = unityCallbacks;
         

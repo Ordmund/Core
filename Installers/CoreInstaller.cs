@@ -1,4 +1,5 @@
 using Core.Managers.Injectable;
+using Core.MVC;
 using Zenject;
 
 namespace Core.Installers
@@ -9,6 +10,7 @@ namespace Core.Installers
         {
             BindUnityCallbacks();
             BindTaskScheduler();
+            BindMVCFactory();
         }
 
         private void BindTaskScheduler()
@@ -22,6 +24,11 @@ namespace Core.Installers
                 .To<UnityCallbacksBehaviour>()
                 .FromNewComponentOnNewGameObject()
                 .AsSingle();
+        }
+
+        private void BindMVCFactory()
+        {
+            Container.Bind<IMVCFactory>().To<MVCFactory>().AsSingle();
         }
     }
 }

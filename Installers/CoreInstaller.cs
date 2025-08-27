@@ -28,7 +28,7 @@ namespace Core.Installers
 
         private void BindMVCFactory()
         {
-            Container.Bind<IMVCFactory>().To<MVCFactory>().AsSingle();
+            Container.Bind<IGameObjectMVCFactory>().To<GameObjectMVCFactory>().AsSingle();
         }
     }
 }

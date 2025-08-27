@@ -7,15 +7,14 @@ namespace Core.Managers.ScriptableObjects
 {
     public static class ScriptableObjectsManager
     {
-        private static readonly List<ScriptableObject> _scriptableObjects = new List<ScriptableObject>();
+        private static readonly List<ScriptableObject> _scriptableObjects = new();
         private static ScriptableObjectsPathHandler _pathHandler;
 
         private static ScriptableObjectsPathHandler PathHandler => _pathHandler != null ? _pathHandler : _pathHandler = ResourcesManager.Load<ScriptableObjectsPathHandler>(PathHandlerPath);
 
         public static bool Exist<TScriptableObject>(string name = null) where TScriptableObject : ScriptableObject
         {
-            if (name == null)
-                name = typeof(TScriptableObject).Name;
+            name ??= typeof(TScriptableObject).Name;
 
             return PathHandler.Contains(name);
         }

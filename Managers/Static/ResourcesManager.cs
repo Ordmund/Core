@@ -6,7 +6,7 @@ namespace Core.Managers
 {
     public static class ResourcesManager
     {
-        private static readonly Dictionary<string, Object> _assets = new Dictionary<string, Object>();
+        private static readonly Dictionary<string, Object> _assets = new();
 
         /// <summary>
         /// Loads asset with specified type by specified path
@@ -16,8 +16,8 @@ namespace Core.Managers
         /// <returns>Loaded asset</returns>
         public static T Load<T>(string path) where T : Object
         {
-            if (_assets.ContainsKey(path))
-                return _assets[path] as T;
+            if (_assets.TryGetValue(path, out var preloadedAsset))
+                return preloadedAsset as T;
 
             var asset = Resources.Load<T>(path);
             _assets.Add(path, asset);
@@ -47,7 +47,9 @@ namespace Core.Managers
             if (_assets.ContainsKey(path))
             {
                 var asset = _assets[path];
-                Resources.UnloadAsset(asset);
+                if(asset is not GameObject)
+                    Resources.UnloadAsset(asset);
+                
                 _assets.Remove(path);
             }
         }
@@ -57,7 +59,8 @@ namespace Core.Managers
         /// </summary>
         public static void UnloadAll()
         {
-            foreach (var asset in _assets) 
+            var assetsToUnload = _assets.Where(asset => asset.Value is not GameObject);
+            foreach (var asset in assetsToUnload)
                 Resources.UnloadAsset(asset.Value);
         
             _assets.Clear();

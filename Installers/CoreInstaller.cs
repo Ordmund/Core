@@ -10,7 +10,7 @@ namespace Core.Installers
         {
             BindUnityCallbacks();
             BindTaskScheduler();
-            BindMVCFactory();
+            BindGameObjectMVCFactory();
         }
 
         private void BindTaskScheduler()
@@ -26,9 +26,10 @@ namespace Core.Installers
                 .AsSingle();
         }
 
-        private void BindMVCFactory()
+        private void BindGameObjectMVCFactory()
         {
             Container.Bind<IGameObjectMVCFactory>().To<GameObjectMVCFactory>().AsSingle();
+            Container.Bind<IPrefabPathProvider>().To<PrefabPathProvider>().AsSingle();
         }
     }
 }

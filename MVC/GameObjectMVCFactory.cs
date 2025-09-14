@@ -6,18 +6,21 @@ namespace Core.MVC
 {
     public class GameObjectMVCFactory : IGameObjectMVCFactory
     {
-        private DiContainer _container;
+        private readonly DiContainer _container;
+        private readonly IPrefabPathProvider _prefabPathProvider;
         
-        public GameObjectMVCFactory(DiContainer container)
+        public GameObjectMVCFactory(DiContainer container, IPrefabPathProvider prefabPathProvider)
         {
             _container = container;
+            _prefabPathProvider = prefabPathProvider;
         }
 
-        public TController InstantiateAndBind<TController, TView, TModel>(string path)
+        public TController InstantiateAndBind<TController, TView, TModel>(string path = null)
             where TController : BaseController<TView, TModel> 
             where TView : BaseView
             where TModel : BaseModel
         {
+            path ??= _prefabPathProvider.GetPathByViewType<TView>();
             var viewPrefab = ResourcesManager.Load<TView>(path);
             var view = UnityEngine.Object.Instantiate(viewPrefab);
             var model = GetModel<TModel>();

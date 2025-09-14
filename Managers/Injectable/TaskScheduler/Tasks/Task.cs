@@ -14,7 +14,7 @@ namespace Core.Managers.Injectable
         public Task Next(Task task)
         {
             nextTask = task;
-            return task;
+            return this;
         }
 
         public Task OnComplete(Action action)

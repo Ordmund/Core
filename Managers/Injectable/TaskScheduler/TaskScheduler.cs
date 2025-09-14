@@ -17,11 +17,11 @@ namespace Core.Managers.Injectable
             _unityCallbacks.OnUpdate += MoveNext;
         }
 
-        public void Run(Task task, float delay = default)
+        public void Run(Task task, float delay = 0)
         {
             if (task != null)
             {
-                if (delay > default(float)) 
+                if (delay > 0)
                     task = new DelayTask(delay).Next(task);
 
                 _tasks.Add(new RunningTask(task));
@@ -41,11 +41,11 @@ namespace Core.Managers.Injectable
         {
             if (_tasks.Count == 0)
                 return;
-
+            
             for (var index = 0; index < _tasks.Count; index++)
             {
                 var task = _tasks[index];
-                if (task.current is { IsComplete: false }) 
+                if (task.current is { IsComplete: false })
                     continue;
                 
                 var result = task.enumerator.MoveNext();

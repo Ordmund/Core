@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Core.MVC
 {
-    public class PrefabsPathsScriptableObject : ScriptableObject
+    public class PrefabsPaths : ScriptableObject
     {
         [SerializeField] private List<PathNamePair> paths = new();
 

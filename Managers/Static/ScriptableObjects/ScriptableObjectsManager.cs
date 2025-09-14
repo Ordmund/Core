@@ -21,8 +21,7 @@ namespace Core.Managers.ScriptableObjects
         
         public static TScriptableObject Load<TScriptableObject>(string name = null) where TScriptableObject : ScriptableObject
         {
-            if (name == null)
-                name = typeof(TScriptableObject).Name;
+            name ??= typeof(TScriptableObject).Name;
             
             var searchResult = _scriptableObjects.FirstOrDefault(loadedScriptableObject => loadedScriptableObject.name == name);
             if (searchResult != null)

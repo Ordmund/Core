@@ -6,21 +6,21 @@ namespace Core.MVC
 {
     public class PrefabPathProvider : IPrefabPathProvider, IInitializable, IDisposable
     {
-        private PrefabsPathsScriptableObject _prefabsPathsScriptableObject;
+        private PrefabsPaths _prefabsPaths;
         
         public void Initialize()
         {
-            _prefabsPathsScriptableObject = ScriptableObjectsManager.Load<PrefabsPathsScriptableObject>();
+            _prefabsPaths = ScriptableObjectsManager.Load<PrefabsPaths>();
         }
         
         public string GetPathByViewType<T>() where T : BaseView
         {
-            return _prefabsPathsScriptableObject.GetPath<T>();
+            return _prefabsPaths.GetPath<T>();
         }
 
         public void Dispose()
         {
-            ScriptableObjectsManager.Unload(_prefabsPathsScriptableObject);
+            ScriptableObjectsManager.Unload(_prefabsPaths);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Core.Installers
         private void BindGameObjectMVCFactory()
         {
             Container.Bind<IGameObjectMVCFactory>().To<GameObjectMVCFactory>().AsSingle();
-            Container.Bind<IPrefabPathProvider>().To<PrefabPathProvider>().AsSingle();
+            Container.BindInterfacesAndSelfTo<PrefabPathProvider>().AsSingle();
         }
     }
 }

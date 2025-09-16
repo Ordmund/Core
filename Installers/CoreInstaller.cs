@@ -16,6 +16,7 @@ namespace Core.Installers
         private void BindTaskScheduler()
         {
             Container.Bind<ITaskScheduler>().To<TaskScheduler>().AsSingle();
+            Container.Bind<ITaskFactory>().To<TaskFactory>().AsSingle();
         }
 
         private void BindUnityCallbacks()

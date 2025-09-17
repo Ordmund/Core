@@ -9,14 +9,7 @@ namespace Core.Installers
         public override void InstallBindings()
         {
             BindUnityCallbacks();
-            BindTaskScheduler();
             BindGameObjectMVCFactory();
-        }
-
-        private void BindTaskScheduler()
-        {
-            Container.Bind<ITaskScheduler>().To<TaskScheduler>().AsSingle();
-            Container.Bind<ITaskFactory>().To<TaskFactory>().AsSingle();
         }
 
         private void BindUnityCallbacks()

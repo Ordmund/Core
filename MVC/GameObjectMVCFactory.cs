@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Core.Managers;
 using Zenject;
 
@@ -23,6 +25,22 @@ namespace Core.MVC
             path ??= _prefabPathProvider.GetPathByViewType<TView>();
             var viewPrefab = ResourcesManager.Load<TView>(path);
             var view = UnityEngine.Object.Instantiate(viewPrefab);
+            var model = GetModel<TModel>();
+            var controller = BindAndResolve<TController, TView, TModel>(view, model);
+
+            return controller;
+        }
+        
+        public async Task<TController> InstantiateAndBindAsync<TController, TView, TModel>(string path = null)
+            where TController : BaseController<TView, TModel> 
+            where TView : BaseView
+            where TModel : BaseModel
+        {
+            path ??= _prefabPathProvider.GetPathByViewType<TView>();
+            var viewPrefab = ResourcesManager.Load<TView>(path);
+            var task = UnityEngine.Object.InstantiateAsync(viewPrefab);
+            var viewsArray = await task;
+            var view = viewsArray.FirstOrDefault();
             var model = GetModel<TModel>();
             var controller = BindAndResolve<TController, TView, TModel>(view, model);
 

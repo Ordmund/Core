@@ -1,6 +1,6 @@
 namespace Core.MVC
 {
-    public interface IPrefabPathProvider
+    public interface IPrefabsPathProvider
     {
         string GetPathByViewType<T>() where T : BaseView;
     }

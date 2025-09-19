@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Core.MVC
 {
-    public class PrefabPathProvider : IPrefabPathProvider, IInitializable, IDisposable
+    public class PrefabsPathProvider : IPrefabsPathProvider, IInitializable, IDisposable
     {
         private PrefabsPaths _prefabsPaths;
         

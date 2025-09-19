@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace Core.Managers.ScriptableObjects
@@ -24,6 +23,7 @@ namespace Core.Managers.ScriptableObjects
             return paths.Any(model => model.name == objectName);
         }
 
+#if UNITY_EDITOR
         [ContextMenu("Update paths")]
         public void UpdatePaths()
         {
@@ -33,13 +33,13 @@ namespace Core.Managers.ScriptableObjects
                 return;
             }
 
-            var GUIDs = AssetDatabase.FindAssets($"t:{nameof(ScriptableObject)}", pathsToScriptableObjects);
+            var GUIDs = UnityEditor.AssetDatabase.FindAssets($"t:{nameof(ScriptableObject)}", pathsToScriptableObjects);
             paths = new ScriptableObjectPath[GUIDs.Length];
             
             for (var assetIndex = 0; assetIndex < GUIDs.Length; assetIndex++)
             {
-                var path = AssetDatabase.GUIDToAssetPath(GUIDs[assetIndex]);
-                var asset = AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+                var path = UnityEditor.AssetDatabase.GUIDToAssetPath(GUIDs[assetIndex]);
+                var asset = UnityEditor.AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
 
                 var conflictingPath = paths.FirstOrDefault(scriptableObjectPath => scriptableObjectPath != null && scriptableObjectPath.name == asset.name);
                 if (conflictingPath != null)
@@ -51,5 +51,6 @@ namespace Core.Managers.ScriptableObjects
 
             Debug.Log("<color=green>ScriptableObjects paths successfully updated!</color>");
         }
+#endif
     }
 }

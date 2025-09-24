@@ -14,7 +14,7 @@ namespace Core.Installers
 
         private void BindTickManager()
         {
-            Container.BindInterfacesAndSelfTo<TickManager>().AsSingle();
+            Container.BindInterfacesAndSelfTo<TickNotifier>().AsSingle();
         }
 
         private void BindGameObjectMVCFactory()

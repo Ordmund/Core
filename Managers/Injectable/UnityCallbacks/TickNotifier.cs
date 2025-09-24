@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Core.Managers.Injectable
 {
-    public class TickManager : ITickManager, ITickable, IFixedTickable, IDisposable
+    public class TickNotifier : ITickNotifier, ITickable, IFixedTickable, IDisposable
     {
         private readonly List<Action> _onTickActions = new();
         private readonly List<Action> _onFixedTickActions = new();

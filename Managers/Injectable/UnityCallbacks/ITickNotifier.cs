@@ -2,7 +2,7 @@ using System;
 
 namespace Core.Managers.Injectable
 {
-    public interface ITickManager
+    public interface ITickNotifier
     {
         public void SubscribeOnTick(Action action);
         public void SubscribeOnFixedTick(Action action);

@@ -8,16 +8,13 @@ namespace Core.Installers
     {
         public override void InstallBindings()
         {
-            BindUnityCallbacks();
+            BindTickManager();
             BindGameObjectMVCFactory();
         }
 
-        private void BindUnityCallbacks()
+        private void BindTickManager()
         {
-            Container.Bind<IUnityCallbacksBehaviour>()
-                .To<UnityCallbacksBehaviour>()
-                .FromNewComponentOnNewGameObject()
-                .AsSingle();
+            Container.BindInterfacesAndSelfTo<TickManager>().AsSingle();
         }
 
         private void BindGameObjectMVCFactory()

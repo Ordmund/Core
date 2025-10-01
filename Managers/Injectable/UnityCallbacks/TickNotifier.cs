@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using Zenject;
 
 namespace Core.Managers.Injectable
 {
-    public class TickNotifier : ITickNotifier, ITickable, IFixedTickable, IDisposable
+    public class TickNotifier : ITickNotifier, IDisposable
     {
         private readonly List<Action> _onTickActions = new();
         private readonly List<Action> _onFixedTickActions = new();
+        private readonly List<Action> _onLateTickActions = new();
         
         public void Tick()
         {
@@ -22,6 +22,14 @@ namespace Core.Managers.Injectable
             foreach (var onFixedTickAction in _onFixedTickActions)
             {
                 onFixedTickAction.Invoke();
+            }
+        }
+        
+        public void LateTick()
+        {
+            foreach (var onLateTickActions in _onLateTickActions)
+            {
+                onLateTickActions.Invoke();
             }
         }
         
@@ -41,6 +49,14 @@ namespace Core.Managers.Injectable
             }
         }
 
+        public void SubscribeOnLateTick(Action action)
+        {
+            if (action != null)
+            {
+                _onLateTickActions.Add(action);
+            }
+        }
+
         public void UnsubscribeFromTick(Action action)
         {
             if (_onTickActions.Contains(action))
@@ -54,6 +70,14 @@ namespace Core.Managers.Injectable
             if (_onFixedTickActions.Contains(action))
             {
                 _onFixedTickActions.Remove(action);
+            }
+        }
+
+        public void UnsubscribeFromLateTick(Action action)
+        {
+            if (_onLateTickActions.Contains(action))
+            {
+                _onLateTickActions.Remove(action);
             }
         }
 

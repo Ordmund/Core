@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Zenject;
 
@@ -40,6 +41,29 @@ namespace Core.MVC
             where TModel : BaseModel
         {
             var view = UnityEngine.Object.FindAnyObjectByType<TView>();
+            if (view == null)
+                throw new NullReferenceException($"No GameObject found with the {typeof(TView)} type.");
+            
+            var model = CreateModel<TModel>();
+            var controller = BindAndResolve<TController, TView, TModel>(view, model);
+            
+            TryCallInitialize(controller);
+
+            return controller;
+        }
+        
+        public TController GetComponentAndBind<TController, TView, TModel>(GameObject gameObject, bool allowSearchInChildren)
+            where TController : BaseController<TView, TModel>
+            where TView : BaseView
+            where TModel : BaseModel
+        {
+            var view = allowSearchInChildren ? 
+                gameObject.GetComponentInChildren<TView>() : 
+                gameObject.GetComponent<TView>();
+
+            if (view != null)
+                throw new NullReferenceException($"{typeof(TView)} component not found on the {gameObject.name} GameObject.");
+            
             var model = CreateModel<TModel>();
             var controller = BindAndResolve<TController, TView, TModel>(view, model);
             

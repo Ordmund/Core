@@ -61,9 +61,9 @@ namespace Core.MVC
                 gameObject.GetComponentInChildren<TView>() : 
                 gameObject.GetComponent<TView>();
 
-            if (view != null)
+            if (view == null)
                 throw new NullReferenceException($"{typeof(TView)} component not found on the {gameObject.name} GameObject.");
-            
+
             var model = CreateModel<TModel>();
             var controller = BindAndResolve<TController, TView, TModel>(view, model);
             

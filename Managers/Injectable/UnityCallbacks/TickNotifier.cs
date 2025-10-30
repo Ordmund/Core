@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Managers.Injectable
 {
@@ -11,7 +12,7 @@ namespace Core.Managers.Injectable
         
         public void Tick()
         {
-            foreach (var onTickAction in _onTickActions)
+            foreach (var onTickAction in _onTickActions.ToList())
             {
                 onTickAction.Invoke();
             }
@@ -19,7 +20,7 @@ namespace Core.Managers.Injectable
 
         public void FixedTick()
         {
-            foreach (var onFixedTickAction in _onFixedTickActions)
+            foreach (var onFixedTickAction in _onFixedTickActions.ToList())
             {
                 onFixedTickAction.Invoke();
             }
@@ -27,7 +28,7 @@ namespace Core.Managers.Injectable
         
         public void LateTick()
         {
-            foreach (var onLateTickActions in _onLateTickActions)
+            foreach (var onLateTickActions in _onLateTickActions.ToList())
             {
                 onLateTickActions.Invoke();
             }

@@ -14,7 +14,7 @@ namespace Core.Managers.ScriptableObjects
         private string _scriptableObjectName;
         private int _selectedIndex;
 
-        [MenuItem("Window/ScriptableObjects/Creator")]
+        [MenuItem("Window/ScriptableObjects/Core Assembly Creator")]
         private static void OpenWindow()
         {
             var window = GetWindow<ScriptableObjectsCreator>();

@@ -39,7 +39,7 @@ namespace Core.Managers.ScriptableObjects
             {
                 var assetPath = AssetDatabase.GetAssetPath(_targetFolder);
                 var fullPath = Path.Combine(assetPath, _scriptableObjectName + ".asset");
-                if(!IsHaveErrors(assetPath, fullPath))
+                if(!ContainsErrors(assetPath, fullPath))
                     CreateScriptableObject(fullPath);
             }
         }
@@ -52,7 +52,7 @@ namespace Core.Managers.ScriptableObjects
             Debug.Log($"<color=green>{_scriptableObjects[_selectedIndex]} successfully created!</color>");
         }
 
-        private bool IsHaveErrors(string assetPath, string fullPath)
+        private bool ContainsErrors(string assetPath, string fullPath)
         {
             if (string.IsNullOrEmpty(_scriptableObjectName))
             {

@@ -50,13 +50,20 @@ namespace Core.Tasks
     
     public abstract class AsyncTask<T>
     {
-        private event Action OnCompleted;
+        public T Result { get; private set; }
+
+        private event Action<T> OnCompleted;
         private event Action OnCanceled;
         private event Action OnFaulted;
         
         public abstract Task<T> Execute();
 
-        public AsyncTask<T> OnComplete(Action action)
+        public void SaveResult(T result)
+        {
+            Result =  result;
+        }
+
+        public AsyncTask<T> OnComplete(Action<T> action)
         {
             OnCompleted += action;
 
@@ -79,7 +86,7 @@ namespace Core.Tasks
 
         public void InvokeOnCompleted()
         {
-            OnCompleted?.Invoke();
+            OnCompleted?.Invoke(Result);
         }
         
         public void InvokeOnCanceled()

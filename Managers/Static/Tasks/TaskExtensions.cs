@@ -53,6 +53,7 @@ namespace Core.Managers
 
                 if (task.IsCompletedSuccessfully)
                 {
+                    asyncTask.SaveResult(task.Result);
                     asyncTask.InvokeOnCompleted();
                 }
 
